@@ -10,7 +10,13 @@ module Nazrin
       def results(client)
         @client = client
 
+        filter_query = @client.parameters[:filter_query]
+        @client.filter_query("(and #{filter_query} (prefix field='_id' '#{@model.to_s}.'))")
+
         res = @client.search
+
+        @client.filter_query(filter_query)
+
         collection = load_all(res.data.hits.hit.map{|x| if x.id.include?(".") then x.id.split(".")[1] else x.id end })
 
         if @client.parameters[:size] && @client.parameters[:start]
