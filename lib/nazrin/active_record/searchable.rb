@@ -89,7 +89,7 @@ module Nazrin
         end
 
         def nazrin_get_document_id(obj)
-          obj.send(:id).to_s + "-" + obj.class.to_s
+          obj.class.to_s + "." + obj.send(:id).to_s
         end
       end
     end
